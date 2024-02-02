@@ -109,3 +109,45 @@ exports.addDepartment = async (req, res, next) => {
     console.log(error);
   }
 };
+
+exports.deleteLocation = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const deleteId = await locations.destroy({
+      where: {
+        id,
+      },
+    });
+
+    return res.status(200).json({
+      status: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: false,
+    });
+  }
+};
+
+exports.updateLocation = async (req, res, next) => {
+  const id = req.params.id;
+  const { name } = req.body;
+  try {
+    const update = await locations.update(
+      {
+        name,
+      },
+
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    return res.status(201).json({
+      status: true,
+      data: update,
+    });
+  } catch (error) {}
+};
